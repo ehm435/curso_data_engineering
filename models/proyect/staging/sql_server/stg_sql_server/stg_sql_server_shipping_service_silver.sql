@@ -1,4 +1,3 @@
-/* COMO ES TRANSFORMACION SENCILLA PODEMOS HACER UNA VISTA */
 {{
   config(
     materialized='view',
@@ -8,25 +7,30 @@
 
 with source_data as (
     select 
-        DISTINCT shipping_service as shipping,
-        DISTINCT shipping_service as description
+        CASE 
+            WHEN shipping_service IS NULL THEN ''
+            WHEN TRIM(shipping_service) = '' THEN ''
+            ELSE shipping_service
+        END as shipping_service_cleaned
     from
-    {{ source('stg_server_dbo', 'orders') }}
+    {{ source('sql_server_dbo', 'orders') }}
 ),
 
-cte as (
-    SELECT
-        md5(shipping) as shipping,
-        description
+services as (
+    SELECT DISTINCT 
+        shipping_service_cleaned as shipping_raw,
+        CASE 
+            WHEN shipping_service_cleaned = '' THEN 'not_selected'
+            ELSE shipping_service_cleaned
+        END as shipping_service_display_name
     FROM source_data
 ),
 
-no_row as (
-    SELECT 
-        'not selected' as shipping,
-        'not selected' as description
+final_selection as (
+    SELECT
+        md5(shipping_raw) as shipping_id, 
+        shipping_service_display_name as description
+    FROM services
 )
 
-SELECT * FROM cte
-UNION ALL
-SELECT * FROM no_row
+SELECT * FROM final_selection

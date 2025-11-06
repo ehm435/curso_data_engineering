@@ -1,4 +1,4 @@
-/* COMO ES TRANSFORMACION SENCILLA PODEMOS HACER UNA VISTA */
+/*
 {{
   config(
     materialized='view',
@@ -29,4 +29,5 @@ cte as (
 
 /*
 Revisar stock y precios
+*/
 */

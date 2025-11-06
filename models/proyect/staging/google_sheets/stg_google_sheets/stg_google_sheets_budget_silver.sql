@@ -1,4 +1,4 @@
-/* COMO ES TRANSFORMACION SENCILLA PODEMOS HACER UNA VISTA */
+/*
 {{
   config(
     materialized='view',
@@ -18,3 +18,4 @@ cte as (
         
     FROM source_data
 )
+*/
