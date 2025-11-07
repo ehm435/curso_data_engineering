@@ -1,7 +1,7 @@
 {{
   config(
     materialized='view',
-    alias='products_silver'
+    alias='products'
   )
 }}
 
