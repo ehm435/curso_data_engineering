@@ -1,4 +1,3 @@
-/*
 {{
   config(
     materialized='view',
@@ -8,7 +7,8 @@
 
 with source_data as (
     select 
-        *,
+        product_id,
+        name,
         _fivetran_deleted as deleted,
         CONVERT_TIMEZONE('Europe/Madrid', _fivetran_synced)::TIMESTAMP_NTZ as synced_utc
     from
@@ -18,16 +18,10 @@ with source_data as (
 cte as (
     SELECT
         product_id,
-        price as price_dollar,
         name,
-        inventory,
         deleted,
         synced_utc
     FROM source_data
 )
 
-
-/*
-Revisar stock y precios
-*/
-*/
+SELECT * FROM cte

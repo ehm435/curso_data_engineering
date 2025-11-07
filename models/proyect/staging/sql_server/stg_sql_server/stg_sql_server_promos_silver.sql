@@ -1,4 +1,3 @@
-/* COMO ES TRANSFORMACION SENCILLA PODEMOS HACER UNA VISTA */
 {{
   config(
     materialized='view',
@@ -8,7 +7,7 @@
 
 with source_data as (
     select 
-        *,
+        status,
         discount as discount_dollar,
         LOWER(TRIM(promo_id, ' ')) as description,
         _fivetran_deleted as deleted,
