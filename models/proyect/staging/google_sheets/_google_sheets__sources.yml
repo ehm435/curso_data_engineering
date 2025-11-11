@@ -11,6 +11,12 @@ sources:
       identifier: false
 
     tables:
+      - name: users
+        columns:
+          - name: Nombre
+          - name: DNI
+          - name: email
+          - name: fecha_alta_sistema
       - name: budget
         columns:
           - name: _row
@@ -38,3 +44,4 @@ sources:
       freshness:
         warn_after: { count: 1000, period: day }
         error_after: { count: 1100, period: day }
+    
