@@ -8,7 +8,7 @@
 with source_data as (
     select 
         _fivetran_deleted as deleted,
-        CONVERT_TIMEZONE('Europe/Madrid', _fivetran_synced)::TIMESTAMP_NTZ as synced_utc,
+        {{ to_madrid_ntz('_fivetran_synced') }} AS synced_utc,
         CASE 
             WHEN shipping_service IS NULL THEN ''
             WHEN TRIM(shipping_service) = '' THEN ''
