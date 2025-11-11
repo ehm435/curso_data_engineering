@@ -1,0 +1,159 @@
+version: 2
+
+models:
+  - name: stg_sql_server_addresses
+    description: "Contains address records and links to zip codes through zipcode_id."
+    columns:
+      - name: address_id
+        description: "Unique identifier of the address."
+        tests:
+          - not_null
+          - unique
+      - name: address
+        description: "Full address text."
+      - name: zipcode_id
+        description: "Hashed identifier (md5) of the zipcode."
+      - name: deleted
+        description: "Logical deletion flag."
+      - name: synced_utc
+        description: "Timestamp when the record was synced from the source, in UTC."
+
+  - name: stg_sql_server_country
+    description: "List of countries derived from address data."
+    columns:
+      - name: country_id
+        description: "Hashed identifier (md5) of the country."
+        tests:
+          - not_null
+          - unique
+      - name: country
+        description: "Country name."
+      - name: deleted
+        description: "Logical deletion flag."
+      - name: synced_utc
+        description: "Timestamp when the record was synced from the source, in UTC."
+
+  - name: stg_sql_server_products_silver
+    description: "List of available products in the system."
+    columns:
+      - name: product_id
+        description: "Unique identifier of the product."
+        tests:
+          - not_null
+          - unique
+      - name: name
+        description: "Product name."
+      - name: deleted
+        description: "Logical deletion flag."
+      - name: synced_utc
+        description: "Timestamp when the record was synced from the source, in UTC."
+
+  - name: stg_sql_server_promos_silver
+    description: "Promotions and discounts that can be applied to orders."
+    columns:
+      - name: promo_id
+        description: "Hashed identifier (md5) of the promotion."
+        tests:
+          - not_null
+          - unique
+      - name: description
+        description: "Promotion description or name."
+      - name: discount_dollar
+        description: "Discount amount in dollars."
+      - name: status
+        description: "Promotion status (active/inactive)."
+      - name: deleted
+        description: "Logical deletion flag."
+      - name: synced_utc
+        description: "Timestamp when the record was synced from the source, in UTC."
+
+  - name: stg_sql_server_shipping_service_silver
+    description: "Shipping services used in orders."
+    columns:
+      - name: shipping_id
+        description: "Hashed identifier (md5) of the shipping service."
+        tests:
+          - not_null
+          - unique
+      - name: description
+        description: "Display name of the shipping service."
+      - name: deleted
+        description: "Logical deletion flag."
+      - name: synced_utc
+        description: "Timestamp when the record was synced from the source, in UTC."
+
+  - name: stg_sql_server_state
+    description: "States or provinces associated with countries."
+    columns:
+      - name: state_id
+        description: "Hashed identifier (md5) of the state."
+        tests:
+          - not_null
+          - unique
+      - name: state
+        description: "State or province name."
+      - name: country_id
+        description: "Hashed identifier (md5) of the related country."
+      - name: deleted
+        description: "Logical deletion flag."
+      - name: synced_utc
+        description: "Timestamp when the record was synced from the source, in UTC."
+
+  - name: stg_sql_server_status_silver
+    description: "Order status information extracted from the source system."
+    columns:
+      - name: status_id
+        description: "Hashed identifier (md5) of the order status."
+        tests:
+          - not_null
+          - unique
+      - name: status
+        description: "Status text (e.g., shipped, delivered, cancelled)."
+      - name: deleted
+        description: "Logical deletion flag."
+      - name: synced_utc
+        description: "Timestamp when the record was synced from the source, in UTC."
+
+  - name: stg_sql_server_users_silver
+    description: "User information records extracted from the source system."
+    columns:
+      - name: user_id
+        description: "Unique identifier of the user."
+        tests:
+          - not_null
+          - unique
+      - name: first_name
+        description: "User's first name."
+      - name: last_name
+        description: "User's last name."
+      - name: email
+        description: "User email address."
+      - name: phone_number
+        description: "User phone number."
+      - name: created_at_utc
+        description: "User creation timestamp in UTC."
+      - name: updated_at_utc
+        description: "User last update timestamp in UTC."
+      - name: address_id
+        description: "Foreign key reference to the address record."
+      - name: deleted
+        description: "Logical deletion flag."
+      - name: synced_utc
+        description: "Timestamp when the record was synced from the source, in UTC."
+
+  - name: stg_sql_server_zipcode
+    description: "Zip codes and their relationship with states."
+    columns:
+      - name: zipcode_id
+        description: "Hashed identifier (md5) of the zip code."
+        tests:
+          - not_null
+          - unique
+      - name: zipcode
+        description: "Original zip code value."
+      - name: state_id
+        description: "Hashed identifier (md5) of the related state."
+      - name: deleted
+        description: "Logical deletion flag."
+      - name: synced_utc
+        description: "Timestamp when the record was synced from the source, in UTC."

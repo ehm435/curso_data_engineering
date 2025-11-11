@@ -16,7 +16,7 @@ with source_data as (
         END as shipping_service_cleaned,
         shipping_service 
     from
-    ALUMNO13_DEV_BRONZE_DB.sql_server_dbo.orders
+    {{ source('sql_server_dbo', 'orders') }}
 ),
 
 services as (
