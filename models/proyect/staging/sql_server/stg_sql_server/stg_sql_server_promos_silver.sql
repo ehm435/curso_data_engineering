@@ -11,7 +11,7 @@ with source_data as (
         discount as discount_dollar,
         LOWER(TRIM(promo_id, ' ')) as description,
         _fivetran_deleted as deleted,
-        CONVERT_TIMEZONE('Europe/Madrid', _fivetran_synced)::TIMESTAMP_NTZ as synced_utc
+        {{ to_madrid_ntz('_fivetran_synced') }} AS synced_utc
     from
     {{ source('sql_server_dbo', 'promos') }}
 ),
@@ -34,7 +34,7 @@ no_promo_row as (
         0 as discount_dollar,
         'inactive' as status,
         null as deleted,
-        CONVERT_TIMEZONE('Europe/Madrid', CURRENT_TIMESTAMP())::TIMESTAMP_NTZ as synced_utc
+        {{ to_madrid_ntz('CURRENT_TIMESTAMP()') }} AS synced_utc
 )
 
 SELECT * FROM cte

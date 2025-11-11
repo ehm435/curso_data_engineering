@@ -11,7 +11,7 @@ with source_data as (
         address,
         md5(zipcode) as zipcode_id,
         _fivetran_deleted as deleted,
-        CONVERT_TIMEZONE('Europe/Madrid', _fivetran_synced)::TIMESTAMP_NTZ as synced_utc
+        {{ to_madrid_ntz('_fivetran_synced') }} AS synced_utc
     from
     {{ source('sql_server_dbo', 'addresses') }}
 ),
